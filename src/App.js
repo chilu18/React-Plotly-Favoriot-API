@@ -16,18 +16,26 @@ class App extends Component {
   }
 
   componentDidMount(){
-    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
+    var url = 'https://qu8a2mteqj.execute-api.ap-southeast-2.amazonaws.com/Data/serialNumber/SN-1729'
     var headers = {
       headers: {
-        'Content-Type': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+        'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Methods": "OPTIONS,GET",
+            'Content-Type': 'application/json',
+            'X-Api-Key': 'mlHNxPUCN72VIqri1pjiH1r63Bwtz6Sf6sPrqltZ',
+            'x-amzn-RequestId' : '51d1dc1a-0707-4e86-a433-6cc749b0ea49',
+            'x-amz-apigw-id':'PfPJRGSASwMFVpQ=',
+            'X-Amzn-Trace-Id':'Root=1-5f092bd4-e6c138b466ba1aec3b4e0e60',
       }
     }
     axios.get(url, headers)
     .then((x)=>{
       console.log(x)
       this.setState({
-        data: x.data.results
+        data: x.data.iotCatalogs
       })
     })
     .catch(()=>{
@@ -37,11 +45,21 @@ class App extends Component {
 
   // get button 
   getButton = () => {
-    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
+    var url = 'https://qu8a2mteqj.execute-api.ap-southeast-2.amazonaws.com/Data/serialNumber/SN-1729'
     var headers = {
       headers: {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Credentials' : true,
         'Content-Type': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+        "Access-Control-Allow-Methods": "OPTIONS,GET",
+        'Content-Type': 'application/json',
+        'X-Api-Key': 'mlHNxPUCN72VIqri1pjiH1r63Bwtz6Sf6sPrqltZ',
+        'x-amzn-RequestId' : '51d1dc1a-0707-4e86-a433-6cc749b0ea49',
+        'x-amz-apigw-id':'PfPJRGSASwMFVpQ=',
+        'X-Amzn-Trace-Id':'Root=1-5f092bd4-e6c138b466ba1aec3b4e0e60',
+
+       
       }
     }
     axios.get(url, headers)
@@ -58,19 +76,28 @@ class App extends Component {
 
   // post button
   postButton = () => {
-    var url = 'https://api.favoriot.com/v1/streams'
+    var url = 'https://qu8a2mteqj.execute-api.ap-southeast-2.amazonaws.com/Data/serialNumber/SN-1729'
     var headers = {
       headers: {
-        'Content-Type': 'application/json',
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+        'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            'Access-Control-Allow-Credentials' : true,
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Methods": "OPTIONS,GET",
+            'Content-Type': 'application/json',
+            'X-Api-Key': 'mlHNxPUCN72VIqri1pjiH1r63Bwtz6Sf6sPrqltZ',
+            'x-amzn-RequestId' : '51d1dc1a-0707-4e86-a433-6cc749b0ea49',
+            'x-amz-apigw-id':'PfPJRGSASwMFVpQ=',
+            'X-Amzn-Trace-Id':'Root=1-5f092bd4-e6c138b466ba1aec3b4e0e60',
+
       }
     }
     var dataBody = {
-      device_developer_id: "deviceDefault@Lintang_Wisesa",
+      //device_developer_id: "deviceDefault@Lintang_Wisesa",
       data: {
-        Temperature: this.refs.temp.value,
-        Humidity: this.refs.hum.value,
-        Potentio: this.refs.pot.value,
+        deviceTemp: this.refs.temp.value,
+        deviceMos: this.refs.mos.value,
+        unixTimeStamp: this.refs.pot.value,
       }
     }
     axios.post(url, dataBody, headers)
@@ -87,15 +114,13 @@ class App extends Component {
 
     // get variables: temp, hum, pot, time
     var temp = this.state.data.map((val, i)=>{
-      return val.data.Temperature
+      return val.data.deviceTemp
     })
     var hum = this.state.data.map((val, i)=>{
-      return val.data.Humidity
+      return val.data.deviceMos
     })
-    var pot = this.state.data.map((val, i)=>{
-      return val.data.Potentio
-    })
-    var time = this.state.data.map((val, i)=>{
+   
+    var unixTimeStamp = this.state.data.map((val, i)=>{
       return val.stream_created_at.split('T')[0] + ' ' + val.stream_created_at.split('T')[1] 
     })
 
@@ -159,26 +184,20 @@ class App extends Component {
             <Plot
               data={[
                 {
-                  x: time ? time : 0,
+                  x: unixTimeStamp ? unixTimeStamp : 0,
                   y: temp ? temp : 0,
                   type: 'scattergl',
                   marker: {color:'red'},
                   name: 'Temp (°C)'
                 },
                 {
-                  x: time ? time : 0,
+                  x: unixTimeStamp ? unixTimeStamp : 0,
                   y: hum ? hum : 0,
                   type: 'scattergl',
                   marker: {color:'blue'},
-                  name: 'Hum (%)'
+                  name: 'Mos (%)'
                 },
-                {
-                  x: time ? time : 0,
-                  y: pot ? pot : 0,
-                  type: 'scattergl',
-                  marker: {color:'green'},
-                  name: 'Pot'
-                }
+                
               ]}
               layout = {{
                 width : '700', height : '400',
@@ -190,7 +209,7 @@ class App extends Component {
                   },
                   bgcolor: 'lightgrey',
                   bordercolor: 'grey',
-                  borderwidth: 2
+                  borderwidth: 1
                 }
               }}
             />
